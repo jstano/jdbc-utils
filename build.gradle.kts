@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-  implementation("com.stano:java-utils:1.0.0-SNAPSHOT")
+  implementation("com.stano:java-utils:1.0.0")
   implementation("com.h2database:h2:2.3.232")
   implementation("com.microsoft.sqlserver:mssql-jdbc:12.10.1.jre11")
   implementation("commons-cli:commons-cli:1.9.0")
