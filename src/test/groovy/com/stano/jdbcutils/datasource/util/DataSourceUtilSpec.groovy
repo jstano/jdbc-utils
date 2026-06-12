@@ -6,11 +6,11 @@ import spock.lang.Specification
 class DataSourceUtilSpec extends Specification {
   def "getUrlFromDataSource should return the URL from a BasicDataSource"() {
     def dataSource = Mock(BasicDataSource) {
-      getUrl() >> "jdbc:hsqldb://server/database"
+      getUrl() >> "jdbc:h2://server/database"
     }
 
     expect:
-    DataSourceUtil.getUrlFromDataSource(dataSource) == 'jdbc:hsqldb://server/database'
+    DataSourceUtil.getUrlFromDataSource(dataSource) == 'jdbc:h2://server/database'
   }
 
   def "getUrlFromDataSource should return the URL from a DataSource that has a getUrl method"() {

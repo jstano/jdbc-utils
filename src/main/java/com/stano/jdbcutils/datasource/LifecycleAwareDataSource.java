@@ -1,63 +1,67 @@
 package com.stano.jdbcutils.datasource;
 
-import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 public class LifecycleAwareDataSource implements DataSource {
-  private final DataSource dataSource;
-  private final ConnectionPoolLifecycleListener connectionPoolLifecycleListener;
+    private final DataSource dataSource;
+    private final ConnectionPoolLifecycleListener connectionPoolLifecycleListener;
 
-  public LifecycleAwareDataSource(DataSource dataSource, ConnectionPoolLifecycleListener connectionPoolLifecycleListener) {
-    this.dataSource = dataSource;
-    this.connectionPoolLifecycleListener = connectionPoolLifecycleListener;
-  }
+    public LifecycleAwareDataSource(
+            DataSource dataSource,
+            ConnectionPoolLifecycleListener connectionPoolLifecycleListener) {
+        this.dataSource = dataSource;
+        this.connectionPoolLifecycleListener = connectionPoolLifecycleListener;
+    }
 
-  @Override
-  public Connection getConnection() throws SQLException {
-    return new LifecycleAwareConnection(dataSource.getConnection(), connectionPoolLifecycleListener);
-  }
+    @Override
+    public Connection getConnection() throws SQLException {
+        return new LifecycleAwareConnection(
+                dataSource.getConnection(), connectionPoolLifecycleListener);
+    }
 
-  @Override
-  public Connection getConnection(String username, String password) throws SQLException {
-    return new LifecycleAwareConnection(dataSource.getConnection(username, password), connectionPoolLifecycleListener);
-  }
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return new LifecycleAwareConnection(
+                dataSource.getConnection(username, password), connectionPoolLifecycleListener);
+    }
 
-  @Override
-  public <T> T unwrap(Class<T> iface) throws SQLException {
-    return dataSource.unwrap(iface);
-  }
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return dataSource.unwrap(iface);
+    }
 
-  @Override
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
-    return dataSource.isWrapperFor(iface);
-  }
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return dataSource.isWrapperFor(iface);
+    }
 
-  @Override
-  public PrintWriter getLogWriter() throws SQLException {
-    return dataSource.getLogWriter();
-  }
+    @Override
+    public PrintWriter getLogWriter() throws SQLException {
+        return dataSource.getLogWriter();
+    }
 
-  @Override
-  public void setLogWriter(PrintWriter out) throws SQLException {
-    dataSource.setLogWriter(out);
-  }
+    @Override
+    public void setLogWriter(PrintWriter out) throws SQLException {
+        dataSource.setLogWriter(out);
+    }
 
-  @Override
-  public void setLoginTimeout(int seconds) throws SQLException {
-    dataSource.setLoginTimeout(seconds);
-  }
+    @Override
+    public void setLoginTimeout(int seconds) throws SQLException {
+        dataSource.setLoginTimeout(seconds);
+    }
 
-  @Override
-  public int getLoginTimeout() throws SQLException {
-    return dataSource.getLoginTimeout();
-  }
+    @Override
+    public int getLoginTimeout() throws SQLException {
+        return dataSource.getLoginTimeout();
+    }
 
-  @Override
-  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-    return dataSource.getParentLogger();
-  }
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return dataSource.getParentLogger();
+    }
 }

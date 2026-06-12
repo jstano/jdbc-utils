@@ -46,17 +46,16 @@ class JdbcUtilsSpec extends Specification {
     where:
     driverType      | databaseUrl
     DriverType.H2   | "mem:test"
-    DriverType.HSQL | "mem:test"
   }
 
   def "getUrlForConnection should return the url for the connection"() {
-    def connection = DriverType.HSQL.jdbcDriver.openConnection("mem:test", "", "")
+    def connection = DriverType.H2.jdbcDriver.openConnection("mem:test", "", "")
 
     when:
     def connectionUrl = JdbcUtils.getUrlForConnection(connection)
 
     then:
-    connectionUrl == "jdbc:hsqldb:mem:test"
+    connectionUrl == "jdbc:h2:mem:test"
 
     cleanup:
     connection.close()

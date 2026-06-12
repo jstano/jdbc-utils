@@ -4,42 +4,42 @@ import spock.lang.Specification
 
 class SimpleConnectionFactorySpec extends Specification {
 
-   def "should be able to create a connection"() {
+  def "should be able to create a connection"() {
 
-      def url = "mem:"
-      def userName = "username"
-      def password = "password"
-      def driverType = DriverType.H2
+    def url = "mem:"
+    def userName = "username"
+    def password = "password"
+    def driverType = DriverType.H2
 
-      when:
-      def connection = SimpleConnectionFactory.createConnection(url, userName, password, driverType)
+    when:
+    def connection = SimpleConnectionFactory.createConnection(url, userName, password, driverType)
 
-      then:
-      connection
+    then:
+    connection
 
-      cleanup:
-      connection.close()
-   }
+    cleanup:
+    connection.close()
+  }
 
-   def "should be able to create a connection with specifying a driver"() {
+  def "should be able to create a connection with specifying a driver"() {
 
-      def url = "jdbc:h2:mem:"
-      def userName = "username"
-      def password = "password"
+    def url = "jdbc:h2:mem:"
+    def userName = "username"
+    def password = "password"
 
-      when:
-      def connection = SimpleConnectionFactory.createConnection(url, userName, password)
+    when:
+    def connection = SimpleConnectionFactory.createConnection(url, userName, password)
 
-      then:
-      connection
+    then:
+    connection
 
-      cleanup:
-      connection.close()
-   }
+    cleanup:
+    connection.close()
+  }
 
-   def "call the private constructor so coverage is accurate"() {
+  def "call the private constructor so coverage is accurate"() {
 
-      expect:
-      new SimpleConnectionFactory() != null
-   }
+    expect:
+    new SimpleConnectionFactory() != null
+  }
 }

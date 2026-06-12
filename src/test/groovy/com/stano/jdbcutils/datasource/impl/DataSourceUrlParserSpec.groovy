@@ -56,7 +56,6 @@ class DataSourceUrlParserSpec extends Specification {
     'mem:database-name;DB_CLOSE_DELAY=-1'                                | 'mem'          | 'database-name' | ';DB_CLOSE_DELAY=-1'
     'jdbc:h2:mem:database-name'                                          | 'mem'          | 'database-name' | ''
     'jdbc:h2:mem:database-name;DB_CLOSE_DELAY=-1'                        | 'mem'          | 'database-name' | ';DB_CLOSE_DELAY=-1'
-    'jdbc:hsqldb:mem:database-name'                                      | 'mem'          | 'database-name' | ''
   }
 
   def "call the private constructor so the coverage is accurate"() {

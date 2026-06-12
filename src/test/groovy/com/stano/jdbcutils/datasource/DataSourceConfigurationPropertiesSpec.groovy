@@ -5,11 +5,11 @@ import spock.lang.Specification
 class DataSourceConfigurationPropertiesSpec extends Specification {
   def "should be able create a DataSourceConfigurationProperties object and get the values out"() {
     def dataSourceConfigurationProperties = new DataSourceConfigurationProperties(url: 'URL',
-                                                                                  username: 'USERNAME',
-                                                                                  password: 'PASSWORD',
-                                                                                  driver: 'PGSQL',
-                                                                                  showSql: true,
-                                                                                  autoMigrate: true)
+    username: 'USERNAME',
+    password: 'PASSWORD',
+    driver: 'PGSQL',
+    showSql: true,
+    autoMigrate: true)
     def dataSourceProperties = dataSourceConfigurationProperties.toDataSourceProperties()
 
     expect:

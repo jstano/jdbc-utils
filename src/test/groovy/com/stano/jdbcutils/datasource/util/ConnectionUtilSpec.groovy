@@ -7,21 +7,21 @@ import java.sql.DatabaseMetaData
 
 class ConnectionUtilSpec extends Specification {
 
-   def "getUrl should return the URL from the MetaData for the connection"() {
+  def "getUrl should return the URL from the MetaData for the connection"() {
 
-      def metaData = Mock(DatabaseMetaData)
-      metaData.getURL() >> "the-url"
+    def metaData = Mock(DatabaseMetaData)
+    metaData.getURL() >> "the-url"
 
-      def connection = Mock(Connection)
-      connection.getMetaData() >> metaData
+    def connection = Mock(Connection)
+    connection.getMetaData() >> metaData
 
-      expect:
-      ConnectionUtil.getUrl(connection) == 'the-url'
-   }
+    expect:
+    ConnectionUtil.getUrl(connection) == 'the-url'
+  }
 
-   def "call the private constructor so the code coverage is accurate"() {
+  def "call the private constructor so the code coverage is accurate"() {
 
-      expect:
-      new ConnectionUtil()
-   }
+    expect:
+    new ConnectionUtil()
+  }
 }

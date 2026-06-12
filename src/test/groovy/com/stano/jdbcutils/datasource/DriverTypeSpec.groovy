@@ -1,7 +1,7 @@
 package com.stano.jdbcutils.datasource
 
 import com.stano.jdbcutils.datasource.impl.H2Driver
-import com.stano.jdbcutils.datasource.impl.HSQLDriver
+
 import com.stano.jdbcutils.datasource.impl.MSSQLDriver
 import com.stano.jdbcutils.datasource.impl.MySQLDriver
 import com.stano.jdbcutils.datasource.impl.PGSQLDriver
@@ -16,9 +16,8 @@ import java.sql.SQLException
 class DriverTypeSpec extends Specification {
   def testDriverType() {
     expect:
-    DriverType.values().size() == 5
+    DriverType.values().size() == 4
     DriverType.H2.jdbcDriver instanceof H2Driver
-    DriverType.HSQL.jdbcDriver instanceof HSQLDriver
     DriverType.MSSQL.jdbcDriver instanceof MSSQLDriver
     DriverType.MYSQL.jdbcDriver instanceof MySQLDriver
     DriverType.PGSQL.jdbcDriver instanceof PGSQLDriver
@@ -27,12 +26,12 @@ class DriverTypeSpec extends Specification {
   def "fromConnection should return the correct driver type"() {
     def connection = Mock(Connection) {
       getMetaData() >> Mock(DatabaseMetaData) {
-        getURL() >> "jdbc:hsqldb://server/database"
+        getURL() >> "jdbc:h2://server/database"
       }
     }
 
     expect:
-    DriverType.fromConnection(connection) == DriverType.HSQL
+    DriverType.fromConnection(connection) == DriverType.H2
   }
 
   def "fromConnection should throw a RuntimeSQLException if a SQLException occurs"() {
@@ -51,11 +50,11 @@ class DriverTypeSpec extends Specification {
 
   def "fromDataSource should return the DriverType based on the url of the DataSource"() {
     def dataSource = Mock(BasicDataSource) {
-      getUrl() >> "jdbc:hsqldb://server/database"
+      getUrl() >> "jdbc:h2://server/database"
     }
 
     expect:
-    DriverType.fromDataSource(dataSource) == DriverType.HSQL
+    DriverType.fromDataSource(dataSource) == DriverType.H2
   }
 
   def "fromDataSource should throw an IllegalArgumentException of the url cannot be determined"() {
@@ -82,7 +81,6 @@ class DriverTypeSpec extends Specification {
     where:
     url                                              | expectedDriverType
     "jdbc:h2://server/database"                      | DriverType.H2
-    "jdbc:hsqldb://server/database"                  | DriverType.HSQL
     "jdbc:sqlserver://server/;databaseName=database" | DriverType.MSSQL
     "jdbc:mysql://server/database"                   | DriverType.MYSQL
     "jdbc:postgresql://server/database"              | DriverType.PGSQL

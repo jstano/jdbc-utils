@@ -6,18 +6,19 @@ import java.sql.Statement;
 
 public class StatementWrapper {
 
-   private final Connection connection;
+    private final Connection connection;
 
-   public StatementWrapper(Connection connection) {
+    public StatementWrapper(Connection connection) {
 
-      this.connection = connection;
-   }
+        this.connection = connection;
+    }
 
-   public <T> T executeWithStatement(ExecuteWithStatement<T> executeWithStatement) throws SQLException {
+    public <T> T executeWithStatement(ExecuteWithStatement<T> executeWithStatement)
+            throws SQLException {
 
-      try (Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
 
-         return executeWithStatement.executeWithStatement(statement);
-      }
-   }
+            return executeWithStatement.executeWithStatement(statement);
+        }
+    }
 }

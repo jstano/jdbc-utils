@@ -5,35 +5,52 @@ plugins {
   id("org.sonarqube") version "6.2.0.5505"
   id("maven-publish")
   id("signing")
+  id("com.diffplug.spotless") version "6.25.0"
+}
+
+spotless {
+  java {
+    target("src/main/java/**/*.java")
+    googleJavaFormat("1.22.0").aosp()
+    endWithNewline()
+    removeUnusedImports()
+    trimTrailingWhitespace()
+  }
+  groovy {
+    target("src/test/groovy/**/*.groovy")
+    greclipse("4.30")
+    indentWithSpaces(2)
+    endWithNewline()
+    trimTrailingWhitespace()
+  }
 }
 
 dependencies {
   implementation("com.stano:java-utils:1.0.0")
-  implementation("com.h2database:h2:2.3.232")
-  implementation("com.microsoft.sqlserver:mssql-jdbc:12.10.1.jre11")
-  implementation("commons-cli:commons-cli:1.9.0")
-  implementation("commons-io:commons-io:2.19.0")
+  implementation("com.h2database:h2:2.4.240")
+  implementation("com.microsoft.sqlserver:mssql-jdbc:13.4.0.jre11")
+  implementation("commons-cli:commons-cli:1.11.0")
+  implementation("commons-io:commons-io:2.22.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc:2.16.0-alpha")
-  implementation("mysql:mysql-connector-java:8.0.33")
+  implementation("com.mysql:mysql-connector-j:9.7.0")
   implementation("org.apache.commons:commons-collections4:4.5.0")
-  implementation("org.apache.commons:commons-dbcp2:2.13.0")
-  implementation("org.apache.commons:commons-lang3:3.17.0")
-  implementation("org.apache.groovy:groovy-all:4.0.27")
-  implementation("org.hsqldb:hsqldb:2.7.4")
+  implementation("org.apache.commons:commons-dbcp2:2.14.0")
+  implementation("org.apache.commons:commons-lang3:3.20.0")
   implementation("org.jooq:joor-java-8:0.9.15")
-  implementation("org.postgresql:postgresql:42.7.7")
-  implementation("org.slf4j:slf4j-api:2.0.17")
+  implementation("org.postgresql:postgresql:42.7.11")
+  implementation("org.slf4j:slf4j-api:2.0.18")
 
-  testImplementation("net.bytebuddy:byte-buddy:1.17.6")
-  testImplementation("org.junit.jupiter:junit-jupiter:5.13.2")
-  testImplementation("org.junit.platform:junit-platform-launcher:1.13.2")
-  testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
-  testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
-  testImplementation("ch.qos.logback:logback-classic:1.5.18")
-  testImplementation("ch.qos.logback:logback-core:1.5.18")
-  testImplementation("org.slf4j:jcl-over-slf4j:2.0.17")
-  testImplementation("org.slf4j:jul-to-slf4j:2.0.17")
-  testImplementation("org.slf4j:log4j-over-slf4j:2.0.17")
+  testImplementation("net.bytebuddy:byte-buddy:1.18.10")
+  testImplementation("org.apache.groovy:groovy-all:4.0.32")
+  testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
+  testImplementation("org.junit.platform:junit-platform-launcher:6.1.0")
+  testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
+  testImplementation("org.spockframework:spock-core:2.4-groovy-4.0")
+  testImplementation("ch.qos.logback:logback-classic:1.5.34")
+  testImplementation("ch.qos.logback:logback-core:1.5.34")
+  testImplementation("org.slf4j:jcl-over-slf4j:2.0.18")
+  testImplementation("org.slf4j:jul-to-slf4j:2.0.18")
+  testImplementation("org.slf4j:log4j-over-slf4j:2.0.18")
   testImplementation("uk.org.lidalia:sysout-over-slf4j:1.0.2")
   testImplementation("net.logstash.logback:logstash-logback-encoder:8.1")
 }

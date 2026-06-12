@@ -1,57 +1,56 @@
 package com.stano.jdbcutils.datasource;
 
 import com.stano.jdbcutils.utils.RuntimeSQLException;
-
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public interface JdbcDriver {
-  String getJdbcUrlPrefix();
+    String getJdbcUrlPrefix();
 
-  String getDriverClass();
+    String getDriverClass();
 
-  String getValidationQuery();
+    String getValidationQuery();
 
-  String getSpidQuery();
+    String getSpidQuery();
 
-  boolean supportsClob();
+    boolean supportsClob();
 
-  String getSpidForConnection(Connection connection);
+    String getSpidForConnection(Connection connection);
 
-  String getMasterDatabaseName();
+    String getMasterDatabaseName();
 
-  default Driver getDriver() {
+    default Driver getDriver() {
 
-    try {
-      return (Driver)Class.forName(getDriverClass()).newInstance();
-    }
-    catch (Exception x) {
-      throw new RuntimeException(x);
-    }
-  }
-
-  default String getFullUrl(String url) {
-
-    String driverPrefix = getJdbcUrlPrefix();
-
-    if (url.startsWith(driverPrefix)) {
-      return url;
+        try {
+            return (Driver) Class.forName(getDriverClass()).newInstance();
+        } catch (Exception x) {
+            throw new RuntimeException(x);
+        }
     }
 
-    return driverPrefix + url;
-  }
+    default String getFullUrl(String url) {
 
-  default Connection openConnection(String databaseUrl, String userName, String password) throws RuntimeSQLException {
+        String driverPrefix = getJdbcUrlPrefix();
 
-    try {
-      return DriverManager.getConnection(getFullUrl(databaseUrl), userName, password);
+        if (url.startsWith(driverPrefix)) {
+            return url;
+        }
+
+        return driverPrefix + url;
     }
-    catch (SQLException x) {
-      throw new RuntimeSQLException(x);
-    }
-  }
 
-  void createDatabase(String databaseUrl, String userName, String password) throws RuntimeSQLException;
+    default Connection openConnection(String databaseUrl, String userName, String password)
+            throws RuntimeSQLException {
+
+        try {
+            return DriverManager.getConnection(getFullUrl(databaseUrl), userName, password);
+        } catch (SQLException x) {
+            throw new RuntimeSQLException(x);
+        }
+    }
+
+    void createDatabase(String databaseUrl, String userName, String password)
+            throws RuntimeSQLException;
 }

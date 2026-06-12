@@ -4,23 +4,23 @@ import spock.lang.Specification
 
 class DataSourcePropertiesSpec extends Specification {
   def "should be able to create a DataSourceProperties object and get the values out"() {
-    def dataSourceProperties = new DataSourceProperties("//server/database", "username", "password", DriverType.HSQL)
+    def dataSourceProperties = new DataSourceProperties("//server/database", "username", "password", DriverType.H2)
 
     expect:
     dataSourceProperties.url == "//server/database"
     dataSourceProperties.username == "username"
     dataSourceProperties.password == "password"
-    dataSourceProperties.driverType == DriverType.HSQL
+    dataSourceProperties.driverType == DriverType.H2
   }
 
   def "should be able to create a DataSourceProperties object with only a URL"() {
-    def dataSourceProperties = new DataSourceProperties("jdbc:hsqldb:mem:test")
+    def dataSourceProperties = new DataSourceProperties("jdbc:h2:mem:test")
 
     expect:
-    dataSourceProperties.url == "jdbc:hsqldb:mem:test"
+    dataSourceProperties.url == "jdbc:h2:mem:test"
     dataSourceProperties.username == null
     dataSourceProperties.password == null
-    dataSourceProperties.driverType == DriverType.HSQL
+    dataSourceProperties.driverType == DriverType.H2
   }
 
   def "test equals based on changes to the fields"() {
@@ -32,16 +32,16 @@ class DataSourcePropertiesSpec extends Specification {
 
     where:
     url1                | userName1  | password1  | driverType1     | url2                 | userName2   | password2   | driverType2      | expectedResult
-    "//server/database" | "userName" | "password" | DriverType.HSQL | "//server/database"  | "userName"  | "password"  | DriverType.HSQL  | true
-    "//server/database" | "userName" | "password" | DriverType.HSQL | "//server/database2" | "userName"  | "password"  | DriverType.HSQL  | false
-    "//server/database" | "userName" | "password" | DriverType.HSQL | "//server/database"  | "userName2" | "password"  | DriverType.HSQL  | false
-    "//server/database" | "userName" | "password" | DriverType.HSQL | "//server/database"  | "userName"  | "password2" | DriverType.HSQL  | false
-    "//server/database" | "userName" | "password" | DriverType.HSQL | "//server/database"  | "userName"  | "password"  | DriverType.MSSQL | false
+    "//server/database" | "userName" | "password" | DriverType.H2 | "//server/database"  | "userName"  | "password"  | DriverType.H2  | true
+    "//server/database" | "userName" | "password" | DriverType.H2 | "//server/database2" | "userName"  | "password"  | DriverType.H2  | false
+    "//server/database" | "userName" | "password" | DriverType.H2 | "//server/database"  | "userName2" | "password"  | DriverType.H2  | false
+    "//server/database" | "userName" | "password" | DriverType.H2 | "//server/database"  | "userName"  | "password2" | DriverType.H2  | false
+    "//server/database" | "userName" | "password" | DriverType.H2 | "//server/database"  | "userName"  | "password"  | DriverType.MSSQL | false
   }
 
   def "test equals - other cases"() {
-    def dataSourceProperties1 = new DataSourceProperties("//server/database", "username", "password", DriverType.HSQL)
-    def dataSourceProperties2 = new DataSourceProperties("//server/database", "username", "password", DriverType.HSQL)
+    def dataSourceProperties1 = new DataSourceProperties("//server/database", "username", "password", DriverType.H2)
+    def dataSourceProperties2 = new DataSourceProperties("//server/database", "username", "password", DriverType.H2)
 
     expect:
     dataSourceProperties1.equals(dataSourceProperties1)
@@ -51,11 +51,11 @@ class DataSourcePropertiesSpec extends Specification {
   }
 
   def "test hashCode"() {
-    def dataSourceProperties1 = new DataSourceProperties("//server/database", "username", "password", DriverType.HSQL)
-    def dataSourceProperties2 = new DataSourceProperties("//server/database", "username", "password", DriverType.HSQL)
-    def dataSourceProperties3 = new DataSourceProperties("//server/database2", "username", "password", DriverType.HSQL)
-    def dataSourceProperties4 = new DataSourceProperties("//server/database", "username2", "password", DriverType.HSQL)
-    def dataSourceProperties5 = new DataSourceProperties("//server/database", "username", "password2", DriverType.HSQL)
+    def dataSourceProperties1 = new DataSourceProperties("//server/database", "username", "password", DriverType.H2)
+    def dataSourceProperties2 = new DataSourceProperties("//server/database", "username", "password", DriverType.H2)
+    def dataSourceProperties3 = new DataSourceProperties("//server/database2", "username", "password", DriverType.H2)
+    def dataSourceProperties4 = new DataSourceProperties("//server/database", "username2", "password", DriverType.H2)
+    def dataSourceProperties5 = new DataSourceProperties("//server/database", "username", "password2", DriverType.H2)
     def dataSourceProperties6 = new DataSourceProperties("//server/database", "username", "password", DriverType.MSSQL)
 
     expect:
@@ -99,10 +99,10 @@ class DataSourcePropertiesSpec extends Specification {
 
   def "if the driver type is not specified, try and determine it from the url"() {
     def dataSourceProperties1 = new DataSourceProperties("jdbc:h2://server/database", "USERNAME", "PASSWORD")
-    def dataSourceProperties2 = new DataSourceProperties("jdbc:hsqldb://server/database", "USERNAME", "PASSWORD", null)
+    def dataSourceProperties2 = new DataSourceProperties("jdbc:h2:mem:test", "USERNAME", "PASSWORD", null)
 
     expect:
     dataSourceProperties1.driverType == DriverType.H2
-    dataSourceProperties2.driverType == DriverType.HSQL
+    dataSourceProperties2.driverType == DriverType.H2
   }
 }

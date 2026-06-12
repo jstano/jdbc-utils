@@ -4,5 +4,5 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface RowConsumer {
-  void consume(ResultSet rs) throws SQLException;
+    void consume(ResultSet rs) throws SQLException;
 }
